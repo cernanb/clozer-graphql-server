@@ -1,9 +1,9 @@
 const graphql = require('graphql')
-
+const mongoose = require('mongoose')
 const { GraphQLObjectType, GraphQLList } = graphql
-const ClientType = require('./clientType')
 
-const clients = [{ id: 1, firstName: 'John', lastName: 'Crow', email: 'john@gmail.com', address: '123 Main St' }]
+const ClientType = require('./clientType')
+const Client = mongoose.model('client')
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -11,7 +11,7 @@ const RootQuery = new GraphQLObjectType({
     clients: {
       type: new GraphQLList(ClientType),
       resolve() {
-        return clients
+        return Client.find({})
       },
     },
   }),
