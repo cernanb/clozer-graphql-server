@@ -2,7 +2,7 @@ const graphql = require('graphql')
 const clientType = require('./clientType')
 const mongoose = require('mongoose')
 const Client = mongoose.model('client')
-const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } = graphql
 const ClientType = require('./clientType')
 
 const mutation = new GraphQLObjectType({
@@ -38,6 +38,17 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, args) {
         return Client.findByIdAndUpdate(args.id, { $set: args })
+      },
+    },
+    addOppToClient: {
+      type: ClientType,
+      args: {
+        product: { type: GraphQLString },
+        amount: { type: GraphQLInt },
+        clientId: { type: GraphQLID },
+      },
+      resolve(parentValue, { product, clientId, amount }) {
+        return Client.addOpp(clientId, product, amount)
       },
     },
   },
