@@ -3,9 +3,16 @@ const models = require('./models')
 const expressGraphQL = require('express-graphql')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const session = require('express-session')
+const passport = require('passport')
+const passportConfig = require('./services/auth')
+const MongoStore = require('connect-mongo')(session)
 const schema = require('./schema')
+const cors = require('cors')
+
 const app = express()
 
+app.use(cors())
 const PORT = 4000
 
 require('dotenv').config()
@@ -22,6 +29,21 @@ mongoose.connection
   .on('error', error => console.log('Error connection to MongoLab: ', error))
 
 app.use(bodyParser.json())
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+    store: new MongoStore({
+      url: MONGO_URI,
+      autoReconnect: true,
+    }),
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(
   '/graphql',
   expressGraphQL({
