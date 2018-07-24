@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { GraphQLObjectType, GraphQLList, GraphQLNonNull, GraphQLID } = graphql
 
 const ClientType = require('./clientType')
+const UserType = require('./userType')
 const Client = mongoose.model('client')
 
 const RootQuery = new GraphQLObjectType({
@@ -19,6 +20,12 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(parentValue, { id }) {
         return Client.findById(id)
+      },
+    },
+    currentUser: {
+      type: UserType,
+      resolve(parentValue, args, req) {
+        return req.user
       },
     },
   }),
