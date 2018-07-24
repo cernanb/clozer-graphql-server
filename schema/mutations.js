@@ -1,9 +1,11 @@
 const graphql = require('graphql')
-const clientType = require('./clientType')
+const UserType = require('./userType')
 const mongoose = require('mongoose')
 const Client = mongoose.model('client')
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } = graphql
 const ClientType = require('./clientType')
+
+const AuthService = require('../services/auth')
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -49,6 +51,22 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { product, clientId, amount }) {
         return Client.addOpp(clientId, product, amount)
+      },
+    },
+    signup: {
+      type: UserType,
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+        firstName: {
+          type: GraphQLString,
+        },
+        lastName: {
+          type: GraphQLString,
+        },
+      },
+      resolve(parentValue, { email, password, firstName, lastName }, req) {
+        return AuthService.signup({ email, password, firstName, lastName, req })
       },
     },
   },
