@@ -6,6 +6,10 @@ const ClientSchema = new Schema({
   lastName: { type: String },
   address: { type: String },
   opportunities: [{ type: Schema.Types.ObjectId, ref: 'opportunity' }],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
 })
 
 ClientSchema.statics.addOpp = function(id, product, amount) {

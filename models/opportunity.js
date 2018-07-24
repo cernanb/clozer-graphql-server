@@ -6,6 +6,10 @@ const OpportunitySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'client',
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
   product: { type: String },
   amount: { type: Number },
   won: { type: Boolean, default: false },
