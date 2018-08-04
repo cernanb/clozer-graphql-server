@@ -5,6 +5,7 @@ const ClientSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
   address: { type: String },
+  email: { type: String },
   opportunities: [{ type: Schema.Types.ObjectId, ref: 'opportunity' }],
   user: {
     type: Schema.Types.ObjectId,
