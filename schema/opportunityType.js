@@ -18,7 +18,6 @@ const OpportunityType = new GraphQLObjectType({
         return Opportunity.findById(parentValue)
           .populate('client')
           .then(opp => {
-            console.log(opp)
             return opp.client
           })
       },
