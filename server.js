@@ -12,7 +12,12 @@ const cors = require('cors')
 
 const app = express()
 
-app.use(cors())
+var corsOptions = {
+  origin: 'http://localhost:1234',
+  credentials: true, // <-- REQUIRED backend setting
+}
+
+app.use(cors(corsOptions))
 const PORT = 4000
 
 require('dotenv').config()
