@@ -13,6 +13,7 @@ const ClientType = new GraphQLObjectType({
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
     address: { type: GraphQLString },
+    email: { type: GraphQLString },
     opportunities: {
       type: new GraphQLList(OpportunityType),
       resolve(parentValue) {
